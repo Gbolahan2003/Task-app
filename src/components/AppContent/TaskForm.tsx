@@ -91,7 +91,7 @@ export default function TaskForm(props: Props) {
             taskForm.onChange("end", selectedTodo.end);
             taskForm.onChange("date", selectedTodo.date);
         }
-    }, [selectedTodo?.id]);
+    }, [selectedTodo]);
 
     return (
         <form className="task-form" onSubmit={handleSubmit}>

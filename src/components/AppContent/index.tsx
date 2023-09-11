@@ -49,7 +49,7 @@ export default function AppContent(props: Props) {
                     />
                 );
         }
-    }, [todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, selectedTodo, clearSelectedTodo, goToEdit, handleDelete]);
+    }, [todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, selectedTodo, clearSelectedTodo, goToEdit, handleDelete, editTodo]);
 
     return (
         <div className="app-content container d-flex flex-row py-4">

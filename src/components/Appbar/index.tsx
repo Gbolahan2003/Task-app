@@ -9,7 +9,7 @@ export default function Appbar() {
 
     return (
         <header className="app-bar">
-            <div className="container d-flex flex-row justify-content-between align-items-center p-4">
+            <div className="container d-flex flex-row justify-content-between align-items-center p-4 py-5">
                 <h3 className="title">ToDo</h3>
 
                 <div className={'actions d-none d-md-flex flex-row align-items-center'}>
