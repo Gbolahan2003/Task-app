@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import DatePicker from "./DatePicker";
 import { TaskFormMode, TodoActionState } from "../../constants";
@@ -9,6 +9,11 @@ import AutoAnimateHeight from "../AutoAnimateHeight";
 import HorizontalCalendar from "../HorizontalCalendar";
 import TaskList from "./TaskList";
 import ViewTask from "./ViewTask";
+import { AddIcon } from "../../assets/svg";
+import CustomButton from "../Button";
+import Modal from "../Modal";
+import { Todo } from "../../react-app-env";
+import { useWindowSize } from "../../hooks/useWindowSize";
 
 interface Props {
     todoController: UseTodoActionController;
@@ -17,7 +22,25 @@ interface Props {
 export default function AppContent(props: Props) {
     useEffect(() => logger("Render AppContent"), []);
 
-    const { selectedTodo, todoDateFilter, todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, onTodoDateFilterChange, openView, clearSelectedTodo, goToEdit, handleDelete, editTodo} = props.todoController;
+    const [showModal, setShowModal] = useState(false);
+
+    const windowSize = useWindowSize();
+
+    const { selectedTodo, todoDateFilter, todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, onTodoDateFilterChange, clearSelectedTodo, goToEdit, handleDelete, editTodo} = props.todoController;
+    const closeModal = useCallback(() => {
+        setShowModal(false);
+        resetTodoActionState();
+    }, [resetTodoActionState]);
+
+    const openCreateModal = () => {
+        setShowModal(true);
+        props.todoController.openCreate();
+    }
+
+    const openViewModal = (todo: Todo) => {
+        if (windowSize.width <= 768) setShowModal(true);
+        props.todoController.openView(todo);
+    };
 
     const todoActionComponent = useMemo(() => {
         switch (todoActionState) {
@@ -25,7 +48,12 @@ export default function AppContent(props: Props) {
                 return <DatePicker value={new Date(dateSelected)} onChange={onDateChange} />;
 
             case TodoActionState.ADD:
-                return <TaskForm close={resetTodoActionState} taskFormMode={TaskFormMode.ADD} dateSelected={dateSelected} createTodo={createTodo} />;
+                return <TaskForm 
+                    close={resetTodoActionState} 
+                    taskFormMode={TaskFormMode.ADD} 
+                    dateSelected={dateSelected} 
+                    createTodo={createTodo}
+                />;
 
             case TodoActionState.EDIT:
                 return <TaskForm 
@@ -49,19 +77,45 @@ export default function AppContent(props: Props) {
                     />
                 );
         }
-    }, [todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, selectedTodo, clearSelectedTodo, goToEdit, handleDelete, editTodo]);
+    }, [
+        todoActionState, 
+        dateSelected, 
+        onDateChange, 
+        resetTodoActionState, 
+        createTodo, 
+        selectedTodo, 
+        clearSelectedTodo, 
+        goToEdit, 
+        handleDelete, 
+        editTodo,
+    ]);
 
     return (
-        <div className="app-content container d-flex flex-row py-4">
-            <AutoAnimateHeight className="todo-content-container">
-                <HorizontalCalendar dateSelected={dateSelected} todoDateFilter={todoDateFilter} onTodoDateFilterChange={onTodoDateFilterChange} />
-
-                <TaskList todoDateFilter={todoDateFilter} selectTodo={openView} selectedTodo={selectedTodo} />
-            </AutoAnimateHeight>
-
-            <AutoAnimateHeight className="todo-actions-container">
+        <>
+            <Modal shouldShow={showModal} onRequestClose={closeModal}>
                 {todoActionComponent}
-            </AutoAnimateHeight>
-        </div>
+            </Modal>
+
+            <div className="app-content container d-flex flex-row py-4">
+                <AutoAnimateHeight className="todo-content-container">
+                    <HorizontalCalendar dateSelected={dateSelected} todoDateFilter={todoDateFilter} onTodoDateFilterChange={onTodoDateFilterChange} />
+
+                    <TaskList todoDateFilter={todoDateFilter} selectTodo={openViewModal} selectedTodo={selectedTodo} />
+
+                    <div className="d-block d-md-none py-5 w-100">
+                        <CustomButton
+                            title="Create New Task"
+                            leftIcon={<AddIcon />}
+                            onClick={openCreateModal}
+                            className="w-100"
+                        />
+                    </div>
+                </AutoAnimateHeight>
+
+                <AutoAnimateHeight className="todo-actions-container d-none d-md-block">
+                    {todoActionComponent}
+                </AutoAnimateHeight>
+            </div>
+        </>
     );
 }
