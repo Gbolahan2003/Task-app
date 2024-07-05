@@ -1,10 +1,10 @@
 import React from 'react';
 import WebFont from 'webfontloader';
-import Appbar from './components/Appbar';
-import Actionbar from './components/Actionbar';
-import AppContent from './components/AppContent';
-import { useTodoActionController } from './hooks/useTodoActionController';
+
 import "./App.scss";
+import Home from './pages/Home/Home';
+import { Routes, Route}  from 'react-router-dom'
+import Login from './pages/login/Login';
 
 function App() {
   React.useEffect(() => {
@@ -15,17 +15,14 @@ function App() {
     });
   }, []);
 
-  const todoController = useTodoActionController();
 
   return (
-    <div className='App'>
-      <Appbar />
-
-      <div className="container-fluid p-4">
-        <Actionbar todoController={todoController} />
-
-        <AppContent todoController={todoController} />
-      </div>
+    <div className="App">
+      <Routes>
+        <Route path='/' element={<Login/>}/>
+        <Route path='/home' element={<Home/>}/>
+      </Routes>
+    
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 
 import todoSlice from "./features/todoSlice";
+import authSlice from "./features/auth";
 
 const persistConfig = {
   key: 'root',
@@ -12,7 +13,8 @@ const persistConfig = {
 }
 
 const combinedReducers = combineReducers({
-    todos: todoSlice
+    todos: todoSlice, 
+    auth:authSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers)

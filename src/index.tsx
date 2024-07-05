@@ -7,17 +7,20 @@ import { logger } from './utils';
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux-store";
 import { PersistGate } from 'redux-persist/integration/react';
+import GlobalProvider from './globalProvider';
+import {BrowserRouter} from 'react-router-dom'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor} loading={null}>
-      <App />
-    </PersistGate>
-  </Provider>
+  
+  <BrowserRouter>
+   <GlobalProvider>
+  <App/>
+ </GlobalProvider>
+  </BrowserRouter>
 );
 
 reportWebVitals(logger);
