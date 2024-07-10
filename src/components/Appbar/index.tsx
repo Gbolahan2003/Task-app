@@ -4,9 +4,29 @@ import { BellIcon, GearIcon, MenuIcon } from "../../assets/svg";
 import "./styles.scss";
 import { logger } from "../../utils";
 import CustomIconButton from "../IconButton";
+import { useAppDispatch } from "../../hooks/store";
+import { logoutFeature } from "../../redux-store/features/auth/features";
+import { useNavigate } from "react-router-dom";
 
 export default function Appbar() {
     useEffect(() => logger("Render Appbar"), []);
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const LogOut = async()=>{
+        try {
+            const logging = await dispatch(logoutFeature())
+            sessionStorage.removeItem('token')
+            navigate('/login')
+            if(logging){
+    
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
 
     return (
         <header className="app-bar">
@@ -14,7 +34,9 @@ export default function Appbar() {
                 <h3 className="title">ToDo</h3>
 
                 <div className={'actions d-none d-md-flex flex-row align-items-center'}>
-                    <GearIcon />
+                   <div className="logout" onClick={LogOut}>
+                   <GearIcon />
+                   </div>
 
                     <BellIcon />
 

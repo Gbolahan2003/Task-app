@@ -5,26 +5,26 @@ import { login, user } from "./interface"
 
 interface authState{
     login:login |null
-    user:user|null
+    accessToken:string|null
 }
  const initialState:authState ={
     login:null,
-    user:null
+    accessToken:null
  }
 
 export const authSlice = createSlice({
     name:'auth',
     initialState:initialState,
     reducers:{
-        setUser:(state, action:PayloadAction<user>)=>{
-            state.user = action.payload
+        setAccessToken:(state:authState, action:PayloadAction<string>)=>{
+            state.accessToken = action.payload
         }
     }
     
 })
 
 
-export const {setUser} = authSlice.actions
+export const {setAccessToken} = authSlice.actions
 
 
 export default authSlice.reducer

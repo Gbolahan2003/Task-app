@@ -11,3 +11,10 @@ export interface user{
     accessToken:string, 
     refreshToken:string
 }
+
+export interface register{
+    firstName:string,
+    lastName:string,
+    email:string,
+    passworrd:string
+}

@@ -1,5 +1,11 @@
-const baseUrl ={
-    auth:'https://to-do-sigma-two.vercel.app/auth'
+
+export const URL = 'http://localhost:8080'
+// const URL ='https://to-do-jdxn.onrender.com'
+
+const baseURL ={
+    test:`${URL}/test`,
+    auth:`${URL}/auth`,
+    user:`${URL}/user`,
 }
 
-export default baseUrl
+export default baseURL

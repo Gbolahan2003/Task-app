@@ -12,7 +12,10 @@ const GlobalProvider:FC<provider> = ({children}) => {
   return (
     <Provider store={store}>
         <main>
-          <Toaster/>
+          <Toaster
+        expand={true}
+        richColors
+          position='top-center'/>
             {children}
         </main>
       

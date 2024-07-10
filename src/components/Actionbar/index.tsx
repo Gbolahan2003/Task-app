@@ -7,6 +7,7 @@ import { logger } from "../../utils";
 
 interface Props {
     todoController: UseTodoActionController;
+    name:string|undefined
 }
 
 export default function Actionbar(props: Props) {
@@ -16,11 +17,11 @@ export default function Actionbar(props: Props) {
         const today = new Date();
         const hour = today.getHours();
         if (hour < 12) {
-            return "Good morning!";
+            return "Good morning";
         } else if (hour >= 12 && hour < 16) {
-            return "Good afternoon!";
+            return "Good afternoon";
         } else {
-            return "Good evening!";
+            return "Good evening";
         }
     }, []);
 
@@ -28,7 +29,7 @@ export default function Actionbar(props: Props) {
         <div className="action-bar container py-4 d-flex flex-row align-items-center justify-content-between">
             <div className="greeting">
                 <h3>
-                    {getGreeting()}
+                    {getGreeting()}, {props.name}!
                 </h3>
 
                 <span>

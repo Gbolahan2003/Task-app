@@ -1,0 +1,17 @@
+/* App.scss */
+.progress-bar-container {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    width: 100%;
+    height: 0.5rem; /* 1 rem is equivalent to 16px, adjust as needed */
+    background-color: #f3f3f3; /* light gray, adjust as needed */
+  }
+  
+  .progress-bar {
+    background-color: #3F5BF6; /* theme color, adjust as needed */
+    transition: all 0.5s ease-in-out;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* shadow */
+  }
+  

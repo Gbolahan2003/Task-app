@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WebFont from 'webfontloader';
-
+import { Routes, Route, Navigate } from 'react-router-dom';
 import "./App.scss";
 import Home from './pages/Home/Home';
-import { Routes, Route}  from 'react-router-dom'
 import Login from './pages/login/Login';
+import { useAppDispatch, useAppSelector } from './hooks/store';
+import { getUserFeature } from './redux-store/features/user/features';
+import { handleErrors } from './utils/errorHandler';
+import ProgressBar from './components/loadingBar';
 
 function App() {
-  React.useEffect(() => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user.user);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     WebFont.load({
       google: {
         families: ['Work Sans', 'Inter']
@@ -15,14 +22,30 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        await dispatch(getUserFeature());
+      } catch (error) {
+        handleErrors(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [dispatch]);
+
+  if (loading) {
+    return <ProgressBar />;
+  }
 
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/home' element={<Home/>}/>
+        <Route path='/' element={user ? <Home /> : <Navigate to='/login' />} />
+        <Route path='/login' element={user ? <Navigate to='/' /> : <Login />} />
       </Routes>
-    
     </div>
   );
 }
