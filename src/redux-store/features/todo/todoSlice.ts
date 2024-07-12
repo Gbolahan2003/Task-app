@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FormInput, Todo } from "../../react-app-env";
+import { FormInput, Todo } from "../../../react-app-env";
 
-import type { RootState } from "../";
+import type { RootState } from "../..";
 
 
 interface TodoSliceState {

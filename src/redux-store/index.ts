@@ -3,7 +3,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 
-import todoSlice from "./features/todoSlice";
+import todoSlice from "./features/todo/todoSlice";
 import authSlice from "./features/auth";
 import  userSlice from "./features/user";
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { TodoActionState } from "../constants";
 import { FormInput, Todo } from "../react-app-env";
 import { useAppDispatch } from "./store";
-import { addTodo, removeTodo, updateTodo } from "../redux-store/features/todoSlice";
+import { addTodo, removeTodo, updateTodo } from "../redux-store/features/todo/todoSlice";
 import { convertDateToInputString } from "../utils";
 
 export const useTodoActionController = () => {

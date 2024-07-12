@@ -1,7 +1,7 @@
 import ReactCalendar, { TileClassNameFunc } from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import "./styles.scss";
-import { selectTodos } from "../../../redux-store/features/todoSlice";
+import { selectTodos } from "../../../redux-store/features/todo/todoSlice";
 import { useAppSelector } from "../../../hooks/store";
 import { useCallback } from "react";
 

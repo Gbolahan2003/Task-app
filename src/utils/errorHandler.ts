@@ -1,3 +1,4 @@
+import { error } from "console";
 import { toast } from "sonner";
 
 
@@ -5,7 +6,12 @@ import { toast } from "sonner";
     const response = err.response;
     switch (response?.status) {
         case 500:
+             if(response.data.message) {
             toast.error(response.data.message);
+        }else{
+            toast.error(response.data.error);
+
+        }
             break;
 
         case 400:
@@ -20,8 +26,11 @@ import { toast } from "sonner";
                         toast.error(`${field}: ${errorMessage}`);
                     });
                 });
-            } else {
+            } else if(response.data.message) {
                 toast.error(response.data.message);
+            }else{
+                toast.error(response.data.error);
+
             }
             break;
 

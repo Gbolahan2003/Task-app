@@ -11,6 +11,7 @@ export type FormError<T extends object> = {
 export interface Todo {
     id: number;
     title: string;
+    description:string
     date: string;
     start: string;
     end: string;

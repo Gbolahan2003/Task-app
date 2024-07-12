@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../../hooks/store";
-import { selectTodos } from "../../../redux-store/features/todoSlice";
+import { selectTodos } from "../../../redux-store/features/todo/todoSlice";
 import "./styles.scss";
 import TaskTile from "./TaskTile";
 import { isDateSame } from "../../../utils";

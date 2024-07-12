@@ -3,7 +3,7 @@ import { Todo } from "../../../react-app-env";
 import { isDateSame } from "../../../utils";
 import { Checkbox } from "../../CustomInputs";
 import { useAppDispatch } from "../../../hooks/store";
-import { updateTodo } from "../../../redux-store/features/todoSlice";
+import { updateTodo } from "../../../redux-store/features/todo/todoSlice";
 import { RIPPLE_DELAY } from "../../../constants";
 
 interface Props {

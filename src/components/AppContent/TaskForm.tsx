@@ -7,9 +7,11 @@ import ReminderTile from "./RemiderTile";
 import CustomButton from "../Button";
 import { useForm } from "../../hooks/useForm";
 import { FormInput, Todo } from "../../react-app-env";
-import { taskDate, taskEnd, taskStart, taskTitle } from "../../validators";
+import { taskDate, taskEnd, taskStart, taskTitle, taskDescription} from "../../validators";
 import Alert from "../Alert";
 import { logger } from "../../utils";
+import CustomInput from "../CustomInputs/CustomInput";
+import { title } from "process";
 
 interface Props {
     dateSelected?: string;
@@ -22,7 +24,7 @@ interface Props {
 }
 
 const defaultTaskFormState: FormInput = {
-    title: "",
+    Description: "",
     date: "",
     start: "",
     end: ""
@@ -33,7 +35,7 @@ export default function TaskForm(props: Props) {
 
     const { selectedTodo } = props;
 
-    const titleHeader = useMemo(() => {
+    const DescriptionHeader = useMemo(() => {
         switch (props.taskFormMode) {
             case TaskFormMode.ADD:
                 return "Add Task";
@@ -45,7 +47,7 @@ export default function TaskForm(props: Props) {
 
     const taskForm = useForm<FormInput>({ 
         initialState: defaultTaskFormState,
-        validators: { title: taskTitle, start: taskStart, end: taskEnd, date: taskDate }
+        validators: { Description: taskDescription,title:taskTitle, start: taskStart, end: taskEnd, date: taskDate }
     });
 
     const [error, setError] = useState(""); 
@@ -66,7 +68,7 @@ export default function TaskForm(props: Props) {
             date: taskForm.date,
             start: taskForm.start,
             end: taskForm.end,
-            title: taskForm.title
+            Description: taskForm.Description
         };
 
         const create = () => props.createTodo && props.createTodo(data);
@@ -97,11 +99,12 @@ export default function TaskForm(props: Props) {
     // eslint-disable-next-line
     }, [props.dateSelected, props.taskFormMode, taskForm.onChange]);
 
-    useEffect(() => setError(""), [taskForm.date, taskForm.end, taskForm.title, taskForm.start]);
+    useEffect(() => setError(""), [taskForm.date, taskForm.end, taskForm.Description, taskForm.start]);
 
     useEffect(() => {
         if (selectedTodo?.id && props.taskFormMode === TaskFormMode.EDIT) {
-            taskForm.onChange("title", selectedTodo.title);
+            taskForm.onChange("Description", selectedTodo.description);
+            taskForm.onChange("title", selectedTodo.title)
             taskForm.onChange("start", selectedTodo.start);
             taskForm.onChange("end", selectedTodo.end);
             taskForm.onChange("date", selectedTodo.date);
@@ -112,17 +115,27 @@ export default function TaskForm(props: Props) {
     return (
         <form className="task-form" onSubmit={handleSubmit}>
             <div className="task-form__header d-flex flex-row justify-content-between align-items-center mb-2">
-                <h3>{titleHeader}</h3>
+                <h3>{DescriptionHeader}</h3>
 
                 <CustomIconButton onClick={closeForm}>
                     <CloseIcon />
                 </CustomIconButton>
             </div>
+            <div className="mb-3">
+            <CustomInput
+            inputName={"Title"}
+            placeholder="Title"
+            autoFocus
+            
+            onChange={handleChange}
+
+            />
+            </div>
     
             <TextArea<FormInput>
-                inputName="title"
-                autoFocus
-                value={taskForm.title}
+                inputName="Description"
+                placeholder="Description"
+                value={taskForm.Description}
                 onChange={handleChange}
             />
 
