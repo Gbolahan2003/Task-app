@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { TodoActionState } from "../constants";
 import { FormInput, Todo } from "../react-app-env";
-import { useAppDispatch } from "./store";
+import { useAppDispatch, useAppSelector } from "./store";
 import { addTodo, removeTodo, updateTodo } from "../redux-store/features/todo/todoSlice";
 import { convertDateToInputString } from "../utils";
+import { createToDoFeature, getToDoByIdFeature } from "../redux-store/features/todo/feature";
 
 export const useTodoActionController = () => {
     const dispatch = useAppDispatch();
+
 
     const [selectedTodo, setSelectedTodo] = useState<Todo|null>(null);
     const [dateSelected, setDateSelected] = useState<string>(convertDateToInputString(new Date()));
@@ -14,8 +16,13 @@ export const useTodoActionController = () => {
     const [todoActionState, setTodoActionState] = useState<TodoActionState>(TodoActionState.DEFAULT);
 
     const openCreate = () => setTodoActionState(TodoActionState.ADD);
-    const openView = (todo: Todo) => {
-        setSelectedTodo(todo);
+    const openView = async() => {
+        // if(taskId){
+        //     const todo = await dispatch(getToDoByIdFeature(taskId))
+        //       setSelectedTodo(todo);
+        //       console.log(selectedTodo, 'sel');
+              
+        // }
         setTodoActionState(TodoActionState.VIEW);
     }
     const clearSelectedTodo = () => setSelectedTodo(null);
@@ -31,12 +38,14 @@ export const useTodoActionController = () => {
     }
     const onTodoDateFilterChange = setTodoDateFilter;
 
-    const createTodo = (data: FormInput) => {
+    const createTodo = async(data: FormInput) => {
         dispatch(addTodo(data));
+       await dispatch(createToDoFeature(data))
     }
 
     const editTodo = (data: Todo) => {
         dispatch(updateTodo(data));
+        
     }
 
     const goToEdit = () => {

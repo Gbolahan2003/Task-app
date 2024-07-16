@@ -14,6 +14,9 @@ import CustomButton from "../Button";
 import Modal from "../Modal";
 import { Todo } from "../../react-app-env";
 import { useWindowSize } from "../../hooks/useWindowSize";
+import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { setTaskID, setTodos } from "../../redux-store/features/todo/todoSlice";
+import { getToDoByIdFeature, getToDosFeature } from "../../redux-store/features/todo/feature";
 
 interface Props {
     todoController: UseTodoActionController;
@@ -22,11 +25,28 @@ interface Props {
 export default function AppContent(props: Props) {
     useEffect(() => logger("Render AppContent"), []);
 
+    const dispatch = useAppDispatch()
+    useEffect(()=>{
+        dispatch(getToDosFeature())
+        dispatch(setTaskID(null))
+    },[dispatch])
     const [showModal, setShowModal] = useState(false);
 
-    const windowSize = useWindowSize();
+    const selectedId = useAppSelector(state=>state.todos.id)
+    console.log(selectedId);
+    useEffect(()=>{
 
-    const { selectedTodo, todoDateFilter, todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, onTodoDateFilterChange, clearSelectedTodo, goToEdit, handleDelete, editTodo} = props.todoController;
+       selectedId &&  dispatch(getToDoByIdFeature(selectedId))
+    }, [dispatch, selectedId])
+    const selectedTodo = useAppSelector(state=>state.todos.todo)
+
+    
+    const windowSize = useWindowSize();
+    
+    const {  todoDateFilter, todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, onTodoDateFilterChange, clearSelectedTodo, goToEdit, handleDelete, editTodo} = props.todoController;
+ 
+    console.log(selectedTodo, 'slected');
+    
     const closeModal = useCallback(() => {
         setShowModal(false);
         resetTodoActionState();
@@ -39,7 +59,7 @@ export default function AppContent(props: Props) {
 
     const openViewModal = (todo: Todo) => {
         if (windowSize.width <= 768) setShowModal(true);
-        props.todoController.openView(todo);
+        props.todoController.openView();
     };
 
     const todoActionComponent = useMemo(() => {

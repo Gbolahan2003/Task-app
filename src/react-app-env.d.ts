@@ -10,12 +10,15 @@ export type FormError<T extends object> = {
 
 export interface Todo {
     id: number;
+    _id:string;
     title: string;
     description:string
     date: string;
+    createdAt:string
     start: string;
     end: string;
     complete: boolean;
 }
 
 export type FormInput = Omit<Todo, "id", "complete">;
+// export type FormInput = Omit<Todo, "id", "complete">;

@@ -32,6 +32,7 @@ export default function ViewTask(props: Props) {
             </div>
 
             <h3>{todo.title}</h3>
+            <h4>{todo.description}</h4>
 
             <div className="view-task__details my-5">
                 <div>
@@ -40,7 +41,7 @@ export default function ViewTask(props: Props) {
                     </span>
 
                     <span>
-                        {getDateString(todo.date)}
+                        {getDateString(todo.createdAt)}
                     </span>
                 </div>
 

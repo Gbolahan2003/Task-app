@@ -6,10 +6,14 @@ import type { RootState } from "../..";
 
 interface TodoSliceState {
     todos: Todo[];
+    todo:Todo|null,
+    id:string|null
 }
 
 const initialState: TodoSliceState = {
-    todos: []
+    todos: [],
+    todo:null,
+    id:null
 }
 
 export const todoSlice = createSlice({
@@ -18,6 +22,9 @@ export const todoSlice = createSlice({
     reducers: {
         setTodos: (state, action: PayloadAction<Todo[]>) => {
             state.todos = action.payload;
+        },
+        setTodo:(state, action:PayloadAction<Todo>)=>{
+            state.todo = action.payload
         },
         addTodo: (state, action: PayloadAction<FormInput>) => {
             state.todos = [{ id: state.todos.length + 1, ...action.payload, complete: false}, ...state.todos];
@@ -33,11 +40,15 @@ export const todoSlice = createSlice({
 
                 return todo;
             })
+        },
+        setTaskID:(state, action:PayloadAction<string|null>)=>{
+            state.id= action.payload
         }
+        
     }
 });
 
-export const { setTodos, addTodo, removeTodo, updateTodo } = todoSlice.actions;
+export const { setTodos,setTodo, addTodo, removeTodo, updateTodo, setTaskID } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
 
