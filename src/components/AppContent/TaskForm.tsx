@@ -73,7 +73,8 @@ export default function TaskForm(props: Props) {
       start: taskForm.start,
       end: taskForm.end,
       description: taskForm.description,
-      title: taskForm.title
+      title: taskForm.title,
+      status:'Pending'
     };
 
     await dispatch(createToDoFeature(data));

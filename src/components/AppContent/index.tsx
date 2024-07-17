@@ -15,8 +15,7 @@ import Modal from "../Modal";
 import { Todo } from "../../react-app-env";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { setTaskID, setTodos } from "../../redux-store/features/todo/todoSlice";
-import { getToDoByIdFeature, getToDosFeature } from "../../redux-store/features/todo/feature";
+import { getToDosFeature } from "../../redux-store/features/todo/feature";
 
 interface Props {
     todoController: UseTodoActionController;
@@ -25,69 +24,74 @@ interface Props {
 export default function AppContent(props: Props) {
     useEffect(() => logger("Render AppContent"), []);
 
-    const dispatch = useAppDispatch()
-    useEffect(()=>{
-        dispatch(getToDosFeature())
-        dispatch(setTaskID(null))
-    },[dispatch])
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(getToDosFeature());
+    }, [dispatch]);
+
     const [showModal, setShowModal] = useState(false);
 
-    const selectedId = useAppSelector(state=>state.todos.id)
-    console.log(selectedId);
-    useEffect(()=>{
-
-       selectedId &&  dispatch(getToDoByIdFeature(selectedId))
-    }, [dispatch, selectedId])
-    const selectedTodo = useAppSelector(state=>state.todos.todo)
-
-    
+    const selectedTodo = useAppSelector(state => state.todos.todo);
     const windowSize = useWindowSize();
-    
-    const {  todoDateFilter, todoActionState, dateSelected, onDateChange, resetTodoActionState, createTodo, onTodoDateFilterChange, clearSelectedTodo, goToEdit, handleDelete, editTodo} = props.todoController;
- 
-    console.log(selectedTodo, 'slected');
-    
+
+    const {
+        todoDateFilter,
+        todoActionState,
+        dateSelected,
+        onDateChange,
+        resetTodoActionState,
+        createTodo,
+        onTodoDateFilterChange,
+        clearSelectedTodo,
+        openCreate,
+        openView,
+        goToEdit,
+        handleDelete,
+        editTodo,
+    } = props.todoController;
+
     const closeModal = useCallback(() => {
         setShowModal(false);
         resetTodoActionState();
     }, [resetTodoActionState]);
 
-    const openCreateModal = () => {
+    const openCreateModal = useCallback(() => {
         setShowModal(true);
-        props.todoController.openCreate();
-    }
+        openCreate();
+    }, [openCreate]);
 
-    const openViewModal = (todo: Todo) => {
+    const openViewModal = useCallback((todo: Todo) => {
         if (windowSize.width <= 768) setShowModal(true);
-        props.todoController.openView();
-    };
+        openView(todo);
+    }, [windowSize.width, openView]);
 
     const todoActionComponent = useMemo(() => {
         switch (todoActionState) {
             case TodoActionState.DEFAULT:
                 return <DatePicker value={new Date(dateSelected)} onChange={onDateChange} />;
-
             case TodoActionState.ADD:
-                return <TaskForm 
-                    close={resetTodoActionState} 
-                    taskFormMode={TaskFormMode.ADD} 
-                    dateSelected={dateSelected} 
-                    createTodo={createTodo}
-                />;
-
+                return (
+                    <TaskForm
+                        close={resetTodoActionState}
+                        taskFormMode={TaskFormMode.ADD}
+                        dateSelected={dateSelected}
+                        createTodo={createTodo}
+                    />
+                );
             case TodoActionState.EDIT:
-                return <TaskForm 
-                    close={resetTodoActionState} 
-                    taskFormMode={TaskFormMode.EDIT}
-                    dateSelected={dateSelected}
-                    editTodo={editTodo}
-                    selectedTodo={selectedTodo}
-                />;
-
+                return (
+                    <TaskForm
+                        close={resetTodoActionState}
+                        taskFormMode={TaskFormMode.EDIT}
+                        dateSelected={dateSelected}
+                        editTodo={editTodo}
+                        selectedTodo={selectedTodo}
+                    />
+                );
             case TodoActionState.VIEW:
                 return selectedTodo && (
-                    <ViewTask 
-                        todo={selectedTodo} 
+                    <ViewTask
+                        todo={selectedTodo}
                         close={() => {
                             resetTodoActionState();
                             clearSelectedTodo();
@@ -98,15 +102,15 @@ export default function AppContent(props: Props) {
                 );
         }
     }, [
-        todoActionState, 
-        dateSelected, 
-        onDateChange, 
-        resetTodoActionState, 
-        createTodo, 
-        selectedTodo, 
-        clearSelectedTodo, 
-        goToEdit, 
-        handleDelete, 
+        todoActionState,
+        dateSelected,
+        onDateChange,
+        resetTodoActionState,
+        createTodo,
+        selectedTodo,
+        clearSelectedTodo,
+        goToEdit,
+        handleDelete,
         editTodo,
     ]);
 
@@ -118,9 +122,17 @@ export default function AppContent(props: Props) {
 
             <div className="app-content container d-flex flex-row py-4">
                 <AutoAnimateHeight className="todo-content-container">
-                    <HorizontalCalendar dateSelected={dateSelected} todoDateFilter={todoDateFilter} onTodoDateFilterChange={onTodoDateFilterChange} />
+                    <HorizontalCalendar
+                        dateSelected={dateSelected}
+                        todoDateFilter={todoDateFilter}
+                        onTodoDateFilterChange={onTodoDateFilterChange}
+                    />
 
-                    <TaskList todoDateFilter={todoDateFilter} selectTodo={openViewModal} selectedTodo={selectedTodo} />
+                    <TaskList
+                        todoDateFilter={todoDateFilter}
+                        selectTodo={openViewModal}
+                        selectedTodo={selectedTodo}
+                    />
 
                     <div className="d-block d-md-none py-5 w-100">
                         <CustomButton

@@ -16,6 +16,7 @@ export interface Todo {
     date: string;
     createdAt:string
     start: string;
+    status:'Completed'|'Pending'|'Overdue'
     end: string;
     complete: boolean;
 }

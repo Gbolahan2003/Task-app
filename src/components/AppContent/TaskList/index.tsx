@@ -48,7 +48,7 @@ export default function TaskList(props: Props) {
             <div className="task-container mt-4 d-flex flex-column">
                 {
                     useMemo(() => sliceIntoChunks(filtered, PAGE_SIZE)[currentPage - 1]?.map((todo) => (
-                        <TaskTile key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo.id === props.selectedTodo?.id}/>
+                        <TaskTile key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo._id === props.selectedTodo?._id}/>
                     )), [filtered, currentPage, props.selectedTodo, props.selectTodo])
                 }
             </div>

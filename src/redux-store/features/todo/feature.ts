@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 export const createToDoFeature =(data:Todo):any=> async(dispatch:Dispatch)=>{
     try {
+
         const response =  await axiosInstance.post(`task`, data)
         toast.success(response.data.message)
             
@@ -44,7 +45,7 @@ export const getToDoByIdFeature =(id:string):any=>async(dispatch:Dispatch)=>{
 }
 export const updateTodoStatus =(id:string, status:string):any=>async(dispatch:Dispatch)=>{
     try {
-        const response = await  axiosInstance.patch(`task/status/${id}`, status)
+        const response = await  axiosInstance.patch(`task/status/${id}`, {status:status})
         
         toast.success(response.data.message)
         return true
