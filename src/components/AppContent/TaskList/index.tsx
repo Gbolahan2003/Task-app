@@ -11,6 +11,7 @@ interface Props {
     todoDateFilter: Date;
     selectTodo: (todo: Todo) => void;
     selectedTodo: Todo | null;
+    handleChecked: (todo: Todo) => void;
 }
 
 const PAGE_SIZE = 7;
@@ -25,10 +26,8 @@ const sliceIntoChunks = (arr: any[], chunkSize: number) => {
 }
 
 export default function TaskList(props: Props) {
-    const { todoDateFilter } = props;
-    const todos = useAppSelector(state=>state.todos.todos);
-
-    
+    const { todoDateFilter, handleChecked } = props;
+    const todos = useAppSelector(state => state.todos.todos);
     const [currentPage, setCurrentPage] = useState(1);
 
     const onPageChange = (page: number) => {
@@ -48,8 +47,8 @@ export default function TaskList(props: Props) {
             <div className="task-container mt-4 d-flex flex-column">
                 {
                     useMemo(() => sliceIntoChunks(filtered, PAGE_SIZE)[currentPage - 1]?.map((todo) => (
-                        <TaskTile key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo._id === props.selectedTodo?._id}/>
-                    )), [filtered, currentPage, props.selectedTodo, props.selectTodo])
+                        <TaskTile handleChecked={handleChecked} key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo._id === props.selectedTodo?._id}/>
+                    )), [filtered, currentPage, props.selectedTodo, props.selectTodo, handleChecked])
                 }
             </div>
 

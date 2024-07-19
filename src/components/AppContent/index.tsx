@@ -47,6 +47,7 @@ export default function AppContent(props: Props) {
         openView,
         goToEdit,
         handleDelete,
+        handleChecked,
         editTodo,
     } = props.todoController;
 
@@ -92,7 +93,7 @@ export default function AppContent(props: Props) {
                 return selectedTodo && (
                     <ViewTask
                         todo={selectedTodo}
-                        close={() => {
+                        closeForm={() => {
                             resetTodoActionState();
                             clearSelectedTodo();
                         }}
@@ -132,6 +133,7 @@ export default function AppContent(props: Props) {
                         todoDateFilter={todoDateFilter}
                         selectTodo={openViewModal}
                         selectedTodo={selectedTodo}
+                        handleChecked={handleChecked}
                     />
 
                     <div className="d-block d-md-none py-5 w-100">

@@ -2,20 +2,20 @@ import React, { useCallback, useRef } from "react";
 import { Todo } from "../../../react-app-env";
 import { isDateSame } from "../../../utils";
 import { Checkbox } from "../../CustomInputs";
-import { useAppDispatch, useAppSelector } from "../../../hooks/store";
+import { useAppDispatch } from "../../../hooks/store";
 import { setTaskID, setUpdateID } from "../../../redux-store/features/todo/todoSlice";
 import { RIPPLE_DELAY } from "../../../constants";
-import { getToDosFeature, updateTodoStatus } from "../../../redux-store/features/todo/feature";
-import { batch } from "react-redux";
 import classNames from "classnames";
+import './styles.scss'
 
 interface Props {
     todo: Todo;
     selectTodo: (todo: Todo) => void;
     selected?: boolean;
+    handleChecked: (todo: Todo) => void;
 }
 
-export default function TaskTile({ todo, selectTodo, selected = false }: Props) {
+export default function TaskTile({ todo, selectTodo, selected = false, handleChecked }: Props) {
     const dispatch = useAppDispatch();
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -28,7 +28,8 @@ export default function TaskTile({ todo, selectTodo, selected = false }: Props) 
 
     const onChecked = async () => {
         if (todo && todo.status !== 'Completed') {
-       dispatch(setUpdateID(todo._id))
+            dispatch(setUpdateID(todo._id));
+            handleChecked(todo);
         }
     };
 
@@ -60,7 +61,7 @@ export default function TaskTile({ todo, selectTodo, selected = false }: Props) 
         <div
             ref={ref}
             className={classNames("task-tile position-relative d-flex flex-row align-items-center justify-content-between", {
-                'Completed': todo.status === 'Completed',
+                'complete': todo.status === 'Completed',
                 'selected': selected,
             })}
             onClick={handleClick}
@@ -71,14 +72,14 @@ export default function TaskTile({ todo, selectTodo, selected = false }: Props) 
                     isChecked={todo.status === 'Completed'}
                     onChecked={onChecked}
                 />
-                <div>
-                    <span className="title">{todo.title}</span>
-                    <span className="time-range">{todo.start} - {todo.end}</span>
-                </div>
+       <div className="">
+       <span className="title ">{todo.title}</span>
+                <span className="time-range">{todo.start} - {todo.end}</span>
+
+       </div>
             </div>
-            <div className="right">
-                {getDisplayDate()}
-            </div>
+
+            <div className="right">{getDisplayDate()}</div>
         </div>
     );
 }

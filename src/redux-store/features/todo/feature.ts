@@ -66,3 +66,15 @@ export const deleteTodoFeature =(id:string):any=>async(dispatch:Dispatch)=>{
         return false
     }
 }
+
+export const updtateToDoFeature = (id:string, data:Todo):any=>async(dispatch:Dispatch)=>{
+    try {
+        const response = await axiosInstance.put(`task/${id}`, data)
+        toast.success(response.data.message)
+        return true
+        
+    } catch (error) {
+        handleErrors(error)
+        return false
+    }
+}

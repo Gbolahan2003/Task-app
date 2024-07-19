@@ -9,13 +9,15 @@ interface TodoSliceState {
     todo:Todo|null,
     id:string|null,
     updateId:string|null
+    isLoading:boolean
 }
 
 const initialState: TodoSliceState = {
     todos: [],
     todo:null,
     id:null,
-    updateId:null
+    updateId:null,
+    isLoading:false
 }
 
 export const todoSlice = createSlice({
@@ -48,12 +50,15 @@ export const todoSlice = createSlice({
         },
         setUpdateID:(state, action:PayloadAction<string|null>)=>{
             state.updateId = action.payload
+        },
+        setIsLoading:(state, action:PayloadAction<boolean>)=>{
+            state.isLoading = action.payload
         }
         
     }
 });
 
-export const { setTodos,setTodo, addTodo,setUpdateID, removeTodo, updateTodo, setTaskID } = todoSlice.actions;
+export const { setTodos,setTodo, setIsLoading, addTodo,setUpdateID, removeTodo, updateTodo, setTaskID } = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
 

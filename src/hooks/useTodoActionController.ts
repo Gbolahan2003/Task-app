@@ -2,9 +2,9 @@ import { useEffect, useState, useCallback } from "react";
 import { TodoActionState } from "../constants";
 import { FormInput, Todo } from "../react-app-env";
 import { useAppDispatch, useAppSelector } from "./store";
-import { addTodo, removeTodo, setTodo, updateTodo } from "../redux-store/features/todo/todoSlice";
+import { addTodo, setIsLoading, setTodo, updateTodo } from "../redux-store/features/todo/todoSlice";
 import { convertDateToInputString } from "../utils";
-import { createToDoFeature, deleteTodoFeature, getToDoByIdFeature, getToDosFeature } from "../redux-store/features/todo/feature";
+import { createToDoFeature, deleteTodoFeature, getToDoByIdFeature, getToDosFeature, updateTodoStatus } from "../redux-store/features/todo/feature";
 import { batch } from "react-redux";
 
 export const useTodoActionController = () => {
@@ -15,12 +15,13 @@ export const useTodoActionController = () => {
     const [todoActionState, setTodoActionState] = useState<TodoActionState>(TodoActionState.DEFAULT);
 
     const selectedTodo = useAppSelector(state => state.todos.todo);
-
     const openCreate = useCallback(() => setTodoActionState(TodoActionState.ADD), []);
     
     const openView = useCallback(async (todo: Todo) => {
         setTodoActionState(TodoActionState.VIEW);
+        dispatch(setIsLoading(true))
         await dispatch(getToDoByIdFeature(todo._id));
+        dispatch(setIsLoading(false))
     }, [dispatch]);
     
     const clearSelectedTodo = useCallback(() => dispatch(setTodo(null)), [dispatch]);
@@ -58,13 +59,17 @@ export const useTodoActionController = () => {
     const handleDelete = useCallback(async () => {
         if (selectedTodo) {
             await dispatch(deleteTodoFeature(selectedTodo._id));
-            // dispatch(removeTodo(selectedTodo));
-            batch(async()=>{
-                dispatch(getToDosFeature())
-            })
-            // resetTodoActionState();
+            batch(() => {
+                dispatch(getToDosFeature());
+            });
         }
-    }, [dispatch, selectedTodo, resetTodoActionState]);
+    }, [dispatch, selectedTodo]);
+
+    const handleChecked = useCallback(async (todo: Todo) => {
+        if (todo) {
+            await dispatch(updateTodoStatus(todo._id, 'Completed'));
+        }
+    }, [dispatch]);
 
     useEffect(() => {
         clearSelectedTodo();
@@ -77,6 +82,7 @@ export const useTodoActionController = () => {
         todoDateFilter,
         todoActionState,
         openCreate,
+        handleChecked,
         onDateChange,
         resetTodoActionState,
         createTodo,
@@ -90,8 +96,3 @@ export const useTodoActionController = () => {
 };
 
 export type UseTodoActionController = ReturnType<typeof useTodoActionController>;
-
-// Redux Action to clear selected todo
-const setSelectedTodoNull = () => (dispatch: any) => {
-    dispatch({ type: 'todos/clearSelectedTodo' });
-};

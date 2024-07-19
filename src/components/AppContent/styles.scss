@@ -1,3 +1,57 @@
+
+.pulsating-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .loader-block {
+        width: 90%;
+        border-radius: 8px;
+        background: linear-gradient(-90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+        background-size: 200% 200%;
+        animation: pulse 1.5s infinite;
+    }
+
+    .loading-head {
+        height: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .loading-title {
+        height: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    .loading-description {
+        height: 9rem;
+        // margin-bottom: 2rem;
+    }
+
+    .loading-details {
+        height: 2rem;
+        // margin-bottom: 1rem;
+    }
+
+    .loading-button {
+        height: 5rem;
+        margin-right: 1rem;
+        width: 16rem;
+        flex: 1;
+    }
+
+    @keyframes pulse {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+}
 .app-content {
     gap: 20px;
     font-size: 1.4rem;
@@ -76,6 +130,7 @@
     }
 }
 
+
 .view-task {
     width: 100%;
 
@@ -121,6 +176,9 @@
             flex: 1;
         }
     }
+
+    
+    
 }
 
 
