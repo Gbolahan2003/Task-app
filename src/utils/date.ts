@@ -89,15 +89,32 @@ const nthNumber = (number: number) => {
   }
 };
 
-export const getDateString = (date: Date | string) => {
+export const getDateString = (date: Date | string|undefined) => {
     if (typeof date === "string") {
         date = new Date(date);
     }
 
-    let day: string | number = date.getDate();
+    let day: string | number =  Number(date && date.getDate());
     day = nthNumber(day);
-    const monthName = getMonthName(date.getMonth());
-    const year = date.getFullYear();
+    const monthName = date &&  getMonthName( date.getMonth());
+    const year = date?.getFullYear();
 
     return `${day} ${monthName}, ${year}`;
 }
+export const formatDateForDatePicker = (dateString:Date| string|undefined): string => {
+
+    if (!dateString) {
+        return '';
+    }
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        // Invalid date, handle as needed
+        return '';
+    }
+    const year =  date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};

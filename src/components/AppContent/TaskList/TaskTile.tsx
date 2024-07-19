@@ -7,15 +7,17 @@ import { setTaskID, setUpdateID } from "../../../redux-store/features/todo/todoS
 import { RIPPLE_DELAY } from "../../../constants";
 import classNames from "classnames";
 import './styles.scss'
+import { getToDosFeature, updateTodoStatus } from "../../../redux-store/features/todo/feature";
+import { batch } from "react-redux";
 
 interface Props {
     todo: Todo;
     selectTodo: (todo: Todo) => void;
     selected?: boolean;
-    handleChecked: (todo: Todo) => void;
+
 }
 
-export default function TaskTile({ todo, selectTodo, selected = false, handleChecked }: Props) {
+export default function TaskTile({ todo, selectTodo, selected = false }: Props) {
     const dispatch = useAppDispatch();
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -28,8 +30,11 @@ export default function TaskTile({ todo, selectTodo, selected = false, handleChe
 
     const onChecked = async () => {
         if (todo && todo.status !== 'Completed') {
-            dispatch(setUpdateID(todo._id));
-            handleChecked(todo);
+            await dispatch(updateTodoStatus(todo._id, 'Completed'));
+            batch(() => {
+                dispatch(getToDosFeature());
+            });
+        
         }
     };
 

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../../hooks/store";
-import { selectTodos } from "../../../redux-store/features/todo/todoSlice";
 import "./styles.scss";
 import TaskTile from "./TaskTile";
 import { isDateSame } from "../../../utils";
@@ -11,7 +10,6 @@ interface Props {
     todoDateFilter: Date;
     selectTodo: (todo: Todo) => void;
     selectedTodo: Todo | null;
-    handleChecked: (todo: Todo) => void;
 }
 
 const PAGE_SIZE = 7;
@@ -26,7 +24,7 @@ const sliceIntoChunks = (arr: any[], chunkSize: number) => {
 }
 
 export default function TaskList(props: Props) {
-    const { todoDateFilter, handleChecked } = props;
+    const { todoDateFilter } = props;
     const todos = useAppSelector(state => state.todos.todos);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -47,8 +45,8 @@ export default function TaskList(props: Props) {
             <div className="task-container mt-4 d-flex flex-column">
                 {
                     useMemo(() => sliceIntoChunks(filtered, PAGE_SIZE)[currentPage - 1]?.map((todo) => (
-                        <TaskTile handleChecked={handleChecked} key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo._id === props.selectedTodo?._id}/>
-                    )), [filtered, currentPage, props.selectedTodo, props.selectTodo, handleChecked])
+                        <TaskTile  key={`task-tile-${todo._id}`} todo={todo} selectTodo={props.selectTodo} selected={todo._id === props.selectedTodo?._id}/>
+                    )), [filtered, currentPage, props.selectedTodo, props.selectTodo])
                 }
             </div>
 

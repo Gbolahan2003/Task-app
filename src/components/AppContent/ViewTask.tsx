@@ -15,6 +15,7 @@ interface Props {
     closeForm: VoidFunction;
     handleDelete: VoidFunction;
     goToEdit: VoidFunction;
+    
 }
 
 const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) => {
@@ -65,7 +66,7 @@ const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) 
                     </div>
                     <div className="view-task__actions d-flex flex-row">
                         <CustomButton title="Delete" variant="secondary" onClick={handleDelete} />
-                        <CustomButton title="Edit" onClick={goToEdit} />
+                      <CustomButton title="Edit" disabled={todo.status==='Completed'} onClick={goToEdit} />
                     </div>
                 </>
             )}

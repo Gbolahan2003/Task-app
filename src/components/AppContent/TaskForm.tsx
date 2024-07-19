@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { CloseIcon } from "../../assets/svg";
-import { RIPPLE_DELAY, TaskFormMode } from "../../constants";
+import { RIPPLE_DELAY, TaskFormMode, TodoActionState } from "../../constants";
 import CustomIconButton from "../IconButton";
 import { TextArea, DateInput, TimeInput } from "../CustomInputs";
 import ReminderTile from "./RemiderTile";
@@ -9,11 +9,12 @@ import { useForm } from "../../hooks/useForm";
 import { FormInput, Todo } from "../../react-app-env";
 import { taskDate, taskEnd, taskStart, taskTitle, taskDescription } from "../../validators";
 import Alert from "../Alert";
-import { logger } from "../../utils";
+import { getDateString, logger } from "../../utils";
 import CustomInput from "../CustomInputs/CustomInput";
 import { useAppDispatch } from "../../hooks/store";
-import { createToDoFeature, getToDosFeature } from "../../redux-store/features/todo/feature";
+import { createToDoFeature, getToDosFeature, updtateToDoFeature } from "../../redux-store/features/todo/feature";
 import { batch } from "react-redux";
+import { formatDateForDatePicker } from "../../utils/date";
 
 interface Props {
   dateSelected?: string;
@@ -21,23 +22,21 @@ interface Props {
   close: VoidFunction;
   taskFormMode: TaskFormMode;
   createTodo?: (data: FormInput) => void;
-  editTodo?: (data: Todo) => void;
+  editTodo?: (id:string, data: Todo) => void;
   handleClose?: VoidFunction;
 }
 
-const defaultTaskFormState: FormInput = {
-  description: "",
-  title: "",
-  date: "",
-  start: "",
-  end: ""
-};
 
 export default function TaskForm(props: Props) {
   useEffect(() => logger('render TaskForm'), []);
-  const dispatch = useAppDispatch();
 
   const { selectedTodo } = props;
+  const selectedDate = selectedTodo?.createdAt
+
+  const date = formatDateForDatePicker(selectedDate)
+
+  
+  
 
   const DescriptionHeader = useMemo(() => {
     switch (props.taskFormMode) {
@@ -50,6 +49,16 @@ export default function TaskForm(props: Props) {
     }
   }, [props.taskFormMode]);
 
+  
+
+  
+const defaultTaskFormState: FormInput = {
+  description: ""|| selectedTodo?.description,
+  title: "" ||selectedTodo?.title,
+  date: "" ||date ,
+  start: "" ||selectedTodo?.start,
+  end: ""||selectedTodo?.end
+};
   const taskForm = useForm<FormInput>({
     initialState: defaultTaskFormState,
     validators: { description: taskDescription, title: taskTitle, start: taskStart, end: taskEnd, date: taskDate }
@@ -74,14 +83,21 @@ export default function TaskForm(props: Props) {
       end: taskForm.end,
       description: taskForm.description,
       title: taskForm.title,
-      status:'Pending'
+      status:'Pending' || selectedTodo?.status
     };
 
-    await dispatch(createToDoFeature(data));
-    batch(async () => {
-      await dispatch(getToDosFeature());
-    });
-    closeForm();
+
+
+    const create = () => props.createTodo && props.createTodo(data);
+
+    const update = () => props.editTodo && selectedTodo && props.editTodo(selectedTodo._id, data);
+    
+    await new Promise<void>((res) => {
+      setTimeout(() => {
+          props.taskFormMode === TaskFormMode.ADD ? create() : update();
+          res();
+      }, RIPPLE_DELAY);
+  });
   };
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> = (e) => {
