@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import { Todo } from "../../../react-app-env";
-import { isDateSame } from "../../../utils";
+import { getDateString, isDateSame } from "../../../utils";
 import { Checkbox } from "../../CustomInputs";
 import { useAppDispatch } from "../../../hooks/store";
 import { setTaskID, setUpdateID } from "../../../redux-store/features/todo/todoSlice";
@@ -9,6 +9,7 @@ import classNames from "classnames";
 import './styles.scss'
 import { getToDosFeature, updateTodoStatus } from "../../../redux-store/features/todo/feature";
 import { batch } from "react-redux";
+import { formatDateForDatePicker } from "../../../utils/date";
 
 interface Props {
     todo: Todo;
@@ -25,7 +26,7 @@ export default function TaskTile({ todo, selectTodo, selected = false }: Props) 
         if (isDateSame(new Date(), new Date(todo.date))) {
             return "Today";
         }
-        return todo.date;
+        return formatDateForDatePicker(todo.date);
     }, [todo.date]);
 
     const onChecked = async () => {

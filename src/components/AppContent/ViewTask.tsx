@@ -53,7 +53,7 @@ const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) 
                             <span>
                                 <CalendarIcon />
                             </span>
-                            <span>{getDateString(todo.createdAt)}</span>
+                            <span>{getDateString(todo.date)}</span>
                         </div>
                         <div>
                             <span>

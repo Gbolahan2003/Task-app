@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { TodoActionState } from "../constants";
 import { FormInput, Todo } from "../react-app-env";
 import { useAppDispatch, useAppSelector } from "./store";
-import { addTodo, setIsLoading, setTodo, updateTodo } from "../redux-store/features/todo/todoSlice";
+import { setIsLoading, setTodo } from "../redux-store/features/todo/todoSlice";
 import { convertDateToInputString } from "../utils";
 import { createToDoFeature, deleteTodoFeature, getToDoByIdFeature, getToDosFeature, updateTodoStatus, updtateToDoFeature } from "../redux-store/features/todo/feature";
 import { batch } from "react-redux";
@@ -69,7 +69,9 @@ export const useTodoActionController = () => {
             batch(() => {
                 dispatch(getToDosFeature());
             });
+            setTodoActionState(TodoActionState.DEFAULT)
         }
+
     }, [dispatch, selectedTodo]);
 
    

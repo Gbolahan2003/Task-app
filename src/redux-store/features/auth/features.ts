@@ -15,9 +15,6 @@ axios.defaults.withCredentials = true;
 export const loginFeature = (data:LoginType)=> async(dispatch:Dispatch)=>{
     try {
         const login =  await axios.post(`${baseUrl.auth}/login`, data)
-        console.log(login);
-
-        console.log(login.data, 'login');
         
         setAuthToken(login.data.user.sessionToken)
         return true
@@ -34,6 +31,7 @@ export const registerFeature =(data:register)=>async(dispatch:Dispatch)=>{
     try {
         
         const registration = await axios.post(`${baseUrl.auth}/sign-up`, data)
+        toast.success(registration.data.message)
         setAuthToken(registration.data.user.sessionToken)
         return true
     } catch (error) {

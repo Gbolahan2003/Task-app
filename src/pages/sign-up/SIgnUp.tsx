@@ -28,8 +28,7 @@ const SignUP:React.FC = () => {
       setLoading(true)
       const login = await dispatch(registerFeature(data) as any)
       if (login) {
-        toast.success('sign-up sucessful')
-        navigate('/home')
+        navigate('/')
       }
       
     } catch (error) {

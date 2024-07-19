@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from './hooks/store';
 import { getUserFeature } from './redux-store/features/user/features';
 import { handleErrors } from './utils/errorHandler';
 import ProgressBar from './components/loadingBar';
+import SignUP from './pages/sign-up/SIgnUp';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ function App() {
       <Routes>
         <Route path='/' element={user ? <Home /> : <Navigate to='/login' />} />
         <Route path='/login' element={user ? <Navigate to='/' /> : <Login />} />
+        <Route path='/sign-up' element ={<SignUP/>}/>
       </Routes>
     </div>
   );

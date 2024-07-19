@@ -31,7 +31,7 @@ export default function TaskForm(props: Props) {
   useEffect(() => logger('render TaskForm'), []);
 
   const { selectedTodo } = props;
-  const selectedDate = selectedTodo?.createdAt
+  const selectedDate = selectedTodo?.date
 
   const date = formatDateForDatePicker(selectedDate)
 

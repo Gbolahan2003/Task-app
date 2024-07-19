@@ -33,7 +33,7 @@ export default function TaskList(props: Props) {
     }
 
     const filtered = useMemo(() => {
-        return todos.filter((todo) => isDateSame(todoDateFilter, new Date(todo.createdAt)));
+        return todos.filter((todo) => isDateSame(todoDateFilter, new Date(todo.date)));
     }, [todos, todoDateFilter]);
 
     useEffect(() => setCurrentPage(1), [todoDateFilter]);

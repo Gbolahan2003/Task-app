@@ -37,7 +37,7 @@ export default function AppContent(props: Props) {
     const {
         todoDateFilter,
         todoActionState,
-        dateSelected,
+        dateSelected, 
         onDateChange,
         resetTodoActionState,
         createTodo,
