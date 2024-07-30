@@ -7,6 +7,10 @@ import { registerFeature, testFeature } from '../../redux-store/features/auth/fe
 import { toast } from 'sonner'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ParticleContainer from '../../components/particle/particle'
+import { Box, TextField } from '@mui/material'
+import styled from '@emotion/styled'
+import { Link } from 'react-router-dom'
 
 
 
@@ -38,58 +42,82 @@ const SignUP:React.FC = () => {
     }
     setLoading(false)
   }
+
+  const StyledTextField = styled(TextField)(({theme})=>({
+    width: '100%',
+    marginBottom: '20px',
+    '& .MuiInputBase-input': {
+      fontSize: '18px', // Increase input text size
+    },
+    '& .MuiInputLabel-root': {
+      fontSize: '20px', // Increase label size
+    },
+    '& .MuiFormHelperText-root': {
+      fontSize: '14px', // Increase helper text size (if needed)
+    },
+  }));
+  
   return  (
-    <div>
-    <div className="login-container">
-     
+    <ParticleContainer>
+    <div className="login-box">
         <div className="login-flex">
-        <div className="login-image-container">
-            <div className="image"><img src={loginImage} alt="" /></div>
-        </div>
+ 
         <form className="login" action='submit' onSubmit={handleSubmit(onSubmit)}  >
             <h1>welcome!</h1>
             <h3 className="details">
                 Enter details to login
             </h3>
-            <div className="inputs">
+            <Box component={'form'} className="inputs">
         
           
             <div className="">
-             <input type="text"  placeholder='first name' {...register('firstName', {required:true})} />
-             { errors.email && <p className=''> First name is required</p>}
+             <StyledTextField
+             error={!!errors.firstName}
+             variant='standard'
+             helperText={errors.firstName ? String(errors.firstName.message) : ''} type="text"  label='First name' {...register('firstName', {required:'First name is required'})} />
+             
              </div>  
           
             <div className="">
-             <input type="text"  placeholder='Last name' {...register('lastName', {required:true})} />
-             { errors.lastName && <p className=''> Last name is required</p>}
+             <StyledTextField
+             error={!!errors.lastName}
+             variant='standard'
+             helperText={errors.lastName ? String(errors.lastName.message) : ''} type="text"  label='Last name' {...register('lastName', {required:'Last name is required'})} />
+
              </div>  
           
             <div className="">
-             <input type="email"  placeholder='Email' {...register('email', {required:true})} />
-             { errors.email && <p className=''> Email is required</p>}
+             <StyledTextField
+             error={!!errors.email}
+             variant='standard'
+             helperText={errors.email ? String(errors.email.message) : ''} type="email"  label='Email' {...register('email', {required:'Email is required'})} />
+            
              </div>  
 
 
                <div className="">
-             <input type="password" placeholder='password' {...register('password', {required:true})}/>
-             {errors.password && <p>Password is required</p> }
+             <StyledTextField
+             error={!!errors.password}
+
+             variant='standard'
+             helperText={errors.password ? String(errors.password.message) : ''} type="password" label='password' {...register('password', {required:'Password is required'})}/>
              </div>
-            </div>
-            <div className="forgot">
-                FORGOT PASSWORD?
-            </div>
+            </Box>
+            <Link to={'/login'} className="forgot">
+                already have an account?
+            </Link>
             
             {/* {!auth.user &&  (<NavLink  className={'login-button'}>
             <button type="submit" onClick={handlelogin}>LOG IN</button>
             </NavLink>)} */}
             <div  className={'login-button'}>
-            <button type="submit">{loading?'Loading...':'sign up'}</button>
+            <button type="submit">{loading?<div className='spinner'></div>:'sign up'}</button>
             </div>
            
         </form>
         </div>
     </div>
-</div>
+</ParticleContainer>
   )
 }
 

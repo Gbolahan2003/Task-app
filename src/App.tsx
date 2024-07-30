@@ -9,11 +9,12 @@ import { getUserFeature } from './redux-store/features/user/features';
 import { handleErrors } from './utils/errorHandler';
 import ProgressBar from './components/loadingBar';
 import SignUP from './pages/sign-up/SIgnUp';
+import ParticleContainer from './components/particle/particle';
 
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.user);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     WebFont.load({
@@ -30,7 +31,7 @@ function App() {
       } catch (error) {
         handleErrors(error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
@@ -43,11 +44,15 @@ function App() {
 
   return (
     <div className="App">
+    
       <Routes>
         <Route path='/' element={user ? <Home /> : <Navigate to='/login' />} />
         <Route path='/login' element={user ? <Navigate to='/' /> : <Login />} />
         <Route path='/sign-up' element ={<SignUP/>}/>
       </Routes>
+
+
+      
     </div>
   );
 }

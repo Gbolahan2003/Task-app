@@ -1,8 +1,9 @@
-.login-container{
+.login-box{
 
     height: 100vh;
     width: 100vw;
     display: flex;
+    // background-color: #213F7D;
     justify-content: center;
     align-items: center;
    .login-flex{
@@ -11,21 +12,21 @@
        gap: 7rem;
        justify-content: center;
        align-items: center;
+   
        form{
            display: flex;
            flex-direction: column;
            gap: 1rem;
            h1{
-               color: #213F7D;
+               color: #39CDCc;
    
-   font-size: 40px;
+   font-size: 5rem;
    font-style: normal;
    font-weight: 700;
    line-height: normal;
    letter-spacing: -1.6px;
            }
            h3{
-               color: #545F7D;
    
    font-size: 20px;
    font-style: normal;
@@ -33,32 +34,16 @@
    line-height: normal;
            }
            .inputs{
-               display: flex;
-               flex-direction: column;
-               gap: 3rem;
-               p{
-                color: red;
-                font-size: 1.7rem;
-                margin-top: 0.2rem;
-                margin-left: 1rem;
-               }
-               input{
-                   height: 5.5rem;
-                   font-size: 2rem;
-                   width: 45rem;
-                   padding: 1rem;
-                   border-radius: 5px;
-   border: 2px solid rgba(84, 95, 125, 0.15);
-   background: #FFF;
-               }
-               input:focus{
-   outline-color:#1bb1b1; 
-   border-radius: 10px;
+            .input{
+                font-size: 3rem;
+                
                }
            }
+       
            .forgot{
                padding: 2rem 0rem;
                color: #39CDCC;
+               text-decoration: none;
    text-align: right;
    text-align: left;
    font-size: 12px;
@@ -67,6 +52,10 @@
    line-height: normal;
    letter-spacing: 1.2px;
    text-transform: uppercase;
+   transition: all 0.4s;
+   &:hover{
+    color: #3F5BF6;
+   }
            }
       button{
     display: flex;
@@ -98,3 +87,27 @@
         display: none;
        }
    }
+
+
+   .custom_textField{
+    font-size: 3rem
+   }
+
+   /* spinner.css */
+.spinner {
+    border: 6px solid  #39CDCC;
+    border-top: 6px solid #fff;
+    border-radius: 80%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
