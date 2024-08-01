@@ -1,6 +1,5 @@
 
 import './signUp.scss'
-import loginImage from '../../assets/images/loginImage.svg'
 import  {useForm} from 'react-hook-form'
 import { useAppDispatch } from '../../hooks/store'
 import { registerFeature, testFeature } from '../../redux-store/features/auth/features'
@@ -65,7 +64,7 @@ const SignUP:React.FC = () => {
         <form className="login" action='submit' onSubmit={handleSubmit(onSubmit)}  >
             <h1>welcome!</h1>
             <h3 className="details">
-                Enter details to login
+                Enter details to register
             </h3>
             <Box component={'form'} className="inputs">
         
@@ -111,7 +110,7 @@ const SignUP:React.FC = () => {
             <button type="submit" onClick={handlelogin}>LOG IN</button>
             </NavLink>)} */}
             <div  className={'login-button'}>
-            <button type="submit">{loading?<div className='spinner'></div>:'sign up'}</button>
+            <button type="submit">{loading?<div className='spinner'></div>:<div>Sign Up</div>}</button>
             </div>
            
         </form>

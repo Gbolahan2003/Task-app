@@ -18,7 +18,7 @@ export const useTodoActionController = () => {
     const openCreate = useCallback(() => setTodoActionState(TodoActionState.ADD), []);
     
     const openView = useCallback(async (todo: Todo) => {
-        dispatch(setIsLoading(true))
+      await  dispatch(setIsLoading(true))
         setTodoActionState(TodoActionState.VIEW);
         await dispatch(getToDoByIdFeature(todo._id));
         dispatch(setIsLoading(false))

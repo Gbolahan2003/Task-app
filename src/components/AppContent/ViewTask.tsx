@@ -8,6 +8,7 @@ import { CalendarIcon, ClockIcon, CloseIcon } from '../../assets/svg';
 import { getDateString } from '../../utils';
 import CustomIconButton from '../IconButton';
 import CustomButton from '../Button';
+import { TodoActionState } from '../../constants';
 
 interface Props {
     // isLoading: boolean;
@@ -21,6 +22,8 @@ interface Props {
 const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) => {
     const isLoading = useAppSelector(state=>state.todos.isLoading)
     
+    
+    
     return (
         <div className="view-task">
             <div className="view-task_header d-flex flex-row justify-content-end align-items-center mb-2">
@@ -29,7 +32,7 @@ const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) 
                 </CustomIconButton>
             </div>
 
-            {isLoading ? (
+            {  isLoading ? (
                          <div className="pulsating-loader">
                         
                          <div className="loader-block loading-title"></div>
@@ -44,7 +47,7 @@ const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) 
                          </div>
                      </div>
      
-            ) : (
+            ) :!isLoading? (
                 <>
                     <h3>{todo.title}</h3>
                     <h4>{todo.description}</h4>
@@ -69,7 +72,7 @@ const ViewTask: React.FC<Props> = ({ todo, closeForm, handleDelete, goToEdit }) 
                       <CustomButton title="Edit" disabled={todo.status==='Completed'} onClick={goToEdit} />
                     </div>
                 </>
-            )}
+            ):''}
         </div>
     );
 };

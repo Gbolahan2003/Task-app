@@ -59,8 +59,8 @@ const Login: React.FC = () => {
 
   return (
     <ParticleContainer>
-      <div className="login-box">
-        <div className="login-flex">
+      <div className="login-box login">
+        <div className="login-flex login">
           <form className="login" onSubmit={handleSubmit(onSubmit)}>
             <h1>Welcome!</h1>
             <h3 className="details">Enter details to login</h3>
@@ -87,7 +87,7 @@ const Login: React.FC = () => {
         />
               </div>
             </Box>
-            <Link to={'/sign-up'} className="forgot">FORGOT PASSWORD?</Link>
+            <Link to={'/sign-up'} className="forgot">DON'T HAVE AN ACCOUNT?</Link>
             <div className="login-button">
               <button  className='login_button' type="submit">{loading ? <div className='spinner'></div>: 'Login'}</button>
             </div>

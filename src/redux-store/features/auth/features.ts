@@ -20,8 +20,6 @@ export const loginFeature = (data:LoginType)=> async(dispatch:Dispatch)=>{
         return true
     } catch (error) {
         handleErrors(error)
-        console.log(error);
-        
         return false
     }
 
