@@ -46,7 +46,7 @@ const SignUP:React.FC = () => {
     width: '100%',
     marginBottom: '20px',
     '& .MuiInputBase-input': {
-      fontSize: '18px', // Increase input text size
+      fontSize: '18px',// Increase input text size
     },
     '& .MuiInputLabel-root': {
       fontSize: '20px', // Increase label size

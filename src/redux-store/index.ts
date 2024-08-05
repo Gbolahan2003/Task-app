@@ -1,7 +1,7 @@
 import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
+// import {thunk} from 'redux-thunk';
 
 import todoSlice from "./features/todo/todoSlice";
 import authSlice from "./features/auth";
@@ -24,7 +24,7 @@ const persistedReducer = persistReducer(persistConfig, combinedReducers)
 const store = configureStore({
     reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== 'production',
-    middleware: [thunk]
+    // middleware: [thunk]
 });
 
 const persistor = persistStore(store);

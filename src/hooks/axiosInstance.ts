@@ -3,7 +3,10 @@ import { URL } from '../routes';
 
 const axiosInstance = axios.create({
   baseURL: URL,
-  withCredentials: true, // Ensure this is necessary for your use case
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
@@ -15,6 +18,17 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('Response error:', error.response);
+    console.error('Request error details:', error.request);
+    console.error('Error message:', error.message);
     return Promise.reject(error);
   }
 );

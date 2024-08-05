@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { updateTestFeature } from '../../redux-store/features/todo/feature';
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,15 @@ const Login: React.FC = () => {
   }, [dispatch]);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+
+
+  const id = '66ac51554cb80f18d5fda287'
+  const message = 'testing from frontend'
+
+  const testButton =async()=>{
+    await dispatch(updateTestFeature(id, message))
+  }
 
   const onSubmit = async (data: any) => {
     try {
@@ -92,7 +102,11 @@ const Login: React.FC = () => {
               <button  className='login_button' type="submit">{loading ? <div className='spinner'></div>: 'Login'}</button>
             </div>
           </form>
+
+          <button onClick={testButton}>click me</button>
         </div>
+
+
       </div>
     </ParticleContainer>
   );

@@ -6,6 +6,8 @@ import { useAppDispatch } from "../../../hooks/store";
 import { setTodo, setTodos } from "./todoSlice";
 import { toast } from "sonner";
 
+import axios from "axios";
+
 
 
 export const createToDoFeature =(data:Todo):any=> async(dispatch:Dispatch)=>{
@@ -71,6 +73,19 @@ export const updtateToDoFeature = (id:string, data:Todo):any=>async(dispatch:Dis
     try {
         const response = await axiosInstance.put(`task/${id}`, data)
         toast.success(response.data.message)
+        return true
+        
+    } catch (error) {
+        handleErrors(error)
+        return false
+    }
+}
+
+
+export const updateTestFeature =(id:string, message:string):any=> async(dispatch:Dispatch)=>{
+    try {
+        const response = axios.patch(`http://localhost:8080/test/${id}`,{message:message} )
+        console.log(response);
         return true
         
     } catch (error) {
