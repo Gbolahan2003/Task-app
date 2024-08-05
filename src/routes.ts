@@ -1,12 +1,11 @@
+// baseURL.js
 
-export const URL = 'http://localhost:8080'
-// export const URL = 'https://to-do-sigma-two.vercel.app'
+const URL = process.env.REACT_APP_API_URL;
 
+const baseURL = {
+  test: `${URL}/test`,
+  auth: `${URL}/auth`,
+  user: `${URL}/user`,
+};
 
-const baseURL ={
-    test:`${URL}/test`,
-    auth:`${URL}/auth`,
-    user:`${URL}/user`,
-}
-
-export default baseURL
+export default baseURL;
