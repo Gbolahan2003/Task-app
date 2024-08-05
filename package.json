@@ -75,6 +75,7 @@
     ]
   },
   "devDependencies": {
+    "@types/webfontloader": "^1.6.38",
     "env-cmd": "^10.1.0"
   }
 }

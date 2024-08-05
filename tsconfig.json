@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "paths": {
+      "*": ["types/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
