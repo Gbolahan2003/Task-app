@@ -10,6 +10,8 @@ import ParticleContainer from '../../components/particle/particle'
 import { Box, TextField } from '@mui/material'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
+import { getUserFeature } from '../../redux-store/features/user/features'
+
 
 
 
@@ -30,7 +32,10 @@ const SignUP:React.FC = () => {
     try {
       setLoading(true)
       const login = await dispatch(registerFeature(data) as any)
+
       if (login) {
+        toast.success('Registration successful');
+        await dispatch(getUserFeature());
         navigate('/')
       }
       
