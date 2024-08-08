@@ -84,7 +84,7 @@ export const updtateToDoFeature = (id:string, data:Todo):any=>async(dispatch:Dis
 
 export const updateTestFeature =(id:string, message:string):any=> async(dispatch:Dispatch)=>{
     try {
-        const response = axios.patch(`http://localhost:8080/test/${id}`,{message:message} )
+        const response =  await axios.patch(`http://localhost:8080/test/${id}`,{message:message} )
         console.log(response);
         return true
         
