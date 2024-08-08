@@ -25,14 +25,6 @@ const Login: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
 
-
-  const id = '66ac51554cb80f18d5fda287'
-  const message = 'testing from frontend'
-
-  const testButton =async()=>{
-    await dispatch(updateTestFeature(id, message))
-  }
-
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
@@ -103,7 +95,6 @@ const Login: React.FC = () => {
             </div>
           </form>
 
-          <button onClick={testButton}>click me</button>
         </div>
 
 
