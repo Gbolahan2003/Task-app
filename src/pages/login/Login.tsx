@@ -4,14 +4,12 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/store';
 import { loginFeature, testFeature } from '../../redux-store/features/auth/features';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getUserFeature } from '../../redux-store/features/user/features';
 import ParticleContainer from '../../components/particle/particle';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
-import { updateTestFeature } from '../../redux-store/features/todo/feature';
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +20,13 @@ const Login: React.FC = () => {
     dispatch(testFeature());
   }, [dispatch]);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
+  // Set initial values for the form
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      email: 'user@gmail.com',
+      password: '123456',
+    },
+  });
 
   const onSubmit = async (data: any) => {
     try {
@@ -41,23 +44,19 @@ const Login: React.FC = () => {
     setLoading(false);
   };
 
-  const StyledTextField = styled(TextField)(({theme})=>({
+  const StyledTextField = styled(TextField)(({ theme }) => ({
     width: '100%',
     marginBottom: '20px',
     '& .MuiInputBase-input': {
-      fontSize: '18px', // Increase input text size
+      fontSize: '18px',
     },
     '& .MuiInputLabel-root': {
-      fontSize: '20px', // Increase label size
+      fontSize: '20px',
     },
     '& .MuiFormHelperText-root': {
-      fontSize: '14px', // Increase helper text size (if needed)
+      fontSize: '14px',
     },
   }));
-  
-
-
-
 
   return (
     <ParticleContainer>
@@ -68,36 +67,35 @@ const Login: React.FC = () => {
             <h3 className="details">Enter details to login</h3>
             <Box component={'form'} className="inputs">
               <div className="">
-              <StyledTextField
-          variant="standard"
-          type="email"
-          className='custom_textField'
-          label="Email"
-          {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
-          error={!!errors.email}
-          helperText={errors.email ? String(errors.email.message) : ''}
-        />
-      </div>
-      <div className="input-field">
-        <StyledTextField
-          variant="standard"
-          type="password"
-          label="Password"
-          {...register('password', { required: 'Password is required' })}
-          error={!!errors.password}
-          helperText={errors.password ? String(errors.password.message) : ''}
-        />
+                <StyledTextField
+                  variant="standard"
+                  type="email"
+                  className='custom_textField'
+                  label="Email"
+                  {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
+                  error={!!errors.email}
+                  helperText={errors.email ? String(errors.email.message) : ''}
+                />
+              </div>
+              <div className="input-field">
+                <StyledTextField
+                  variant="standard"
+                  type="password"
+                  label="Password"
+                  {...register('password', { required: 'Password is required' })}
+                  error={!!errors.password}
+                  helperText={errors.password ? String(errors.password.message) : ''}
+                />
               </div>
             </Box>
             <Link to={'/sign-up'} className="forgot">DON'T HAVE AN ACCOUNT?</Link>
             <div className="login-button">
-              <button  className='login_button' type="submit">{loading ? <div className='spinner'></div>: 'Login'}</button>
+              <button className='login_button' type="submit">
+                {loading ? <div className='spinner'></div> : 'Login'}
+              </button>
             </div>
           </form>
-
         </div>
-
-
       </div>
     </ParticleContainer>
   );
