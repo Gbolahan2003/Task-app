@@ -46,14 +46,14 @@ const ParticleContainer: FC<ComponentProps> = ({ children }) => {
       },
       particles: {
         number: {
-          value: 200,
+          value: 50,
         },
         links: {
           enable: true,
           distance: 150,
           color: "#ffffff",
           opacity: 0.4,
-          width: 1,
+          width: 3,
         },
         move: {
           enable: true,
